@@ -2,47 +2,47 @@ package com.mycompany.petshoppar;
 import java.util.Scanner;
 
 public class Petshoppar {
-
-    public static void main(String[] args) {
+    
+    public static void main (String[] args) {
         Scanner sc = new Scanner(System.in);
-        boolean continueMenu = true;  
+        boolean continueMenu = true;
 
         while (continueMenu) {
             System.out.println("----Pet-Celso----");
-            System.out.println("Bem vindo ao nosso pet-shop!");
-            System.out.println("Escolha uma das opcoes de servico a seguir:");
+            System.out.println("Bem-vindo ao nosso petshop!!!");
+            System.out.println("Escolha uma das opcoes de serviço a seguir:");
+
             System.out.println("1)Servicos individuais");
             System.out.println("2)Pacote de servicos");
-            System.out.println("3)Cadastro de cliente e pet(s)");
+            System.out.println("3)Cadastro de servicos");
             System.out.println("4)Sair");
 
-            int opcao = sc.nextInt();  
+            int opcao = sc.nextInt();
 
             switch (opcao) {
                 case 1 -> {
                     System.out.println("Opcoes de servico individual.");
                     System.out.println("1)Banho e Tosa");
                     System.out.println("2)Consulta");
-                    System.out.println("3)Cirurgia");
+                    System.out.println("3)Cirugia");
                     System.out.println("4)Sair");
 
                     int opcao2 = sc.nextInt();
-
-                    switch (opcao2) {
-                        case 1 -> {
-                            System.out.println("Gostaria de dar banho e tosa?");
-                            System.out.println("1-Sim e 2-Não");
-                            int opcao9 = sc.nextInt();
-                            switch (opcao9){
-                                case 1->{
-                                    System.out.println("Obrigado!!");
-                                    System.out.println("Deixe seu pet conosco na nossa recepição junto com o nota da compra. ");
-                            }
-                                case 2->{
-                                    System.out.println("Voltando ao menu.");
-                                }
-                            }
-                        }   
+                                    switch (opcao2) {
+                                        case 1 -> {
+                                            System.out.printIn("1-sim e 2-Não");
+                                            int opcao9 = sc.nextInt();
+                                            switch (opcao9){
+                                                case 1->{
+                                                    System.out.println("Obrigado!!");
+                                                    System.out.println("Deixe seu pet conosco na nossa recepção junto com a nota da compra.");
+                                                }
+                                                case 2->{
+                                                    Syste.out.println("Voltando ao menu.");
+                                                }
+                                            }
+                                        }
+                            
                         case 2 -> {
                             sc.nextLine();
                             System.out.println("Marcando consulta");
