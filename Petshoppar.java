@@ -153,8 +153,7 @@ public class Petshoppar {
                         default -> System.out.println("Opção inválida. Tente novamente.");
                     }
                 }
-                case 3 -> {
-                    
+   case 3 -> {
                     sc.nextLine();  
                     System.out.println("Cadastro");
                     System.out.println("1) Nome do dono");
