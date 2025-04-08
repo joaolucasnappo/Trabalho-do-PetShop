@@ -1,0 +1,214 @@
+package com.mycompany.petshoppar;
+
+import java.util.Scanner;
+
+public class Petshoppar {
+    public static void main(String[] args) {
+        MenuPrincipal menu = new MenuPrincipal();
+        menu.executar();
+    }
+}
+
+class MenuPrincipal {
+    private final Scanner sc;
+    private final ServicosIndividuais servicosIndividuais;
+    private final PacoteServicos pacoteServicos;
+    private final CadastroCliente cadastroCliente;
+
+    public MenuPrincipal() {
+        sc = new Scanner(System.in);
+        servicosIndividuais = new ServicosIndividuais(sc);
+        pacoteServicos = new PacoteServicos(sc);
+        cadastroCliente = new CadastroCliente(sc);
+    }
+
+    public void executar() {
+        boolean continueMenu = true;
+
+        while (continueMenu) {
+            System.out.println("----Pet-Celso----");
+            System.out.println("Bem-vindo ao nosso petshop!!!");
+            System.out.println("Escolha uma das opcoes de serviço a seguir:");
+            System.out.println("1) Servicos individuais");
+            System.out.println("2) Pacote de servicos");
+            System.out.println("3) Cadastro de cliente");
+            System.out.println("4) Sair");
+
+            int opcao = sc.nextInt();
+
+            switch (opcao) {
+                case 1 -> servicosIndividuais.executar();
+                case 2 -> pacoteServicos.executar();
+                case 3 -> cadastroCliente.executar();
+                case 4 -> {
+                    System.out.println("Saindo... Até logo!");
+                    continueMenu = false;
+                }
+                default -> System.out.println("Opção inválida. Tente novamente.");
+            }
+        }
+    }
+}
+
+class ServicosIndividuais {
+    private final Scanner sc;
+
+    public ServicosIndividuais(Scanner sc) {
+        this.sc = sc;
+    }
+
+    public void executar() {
+        System.out.println("Opcoes de servico individual.");
+        System.out.println("1) Banho e Tosa");
+        System.out.println("2) Consulta");
+        System.out.println("3) Cirurgia");
+        System.out.println("4) Sair");
+
+        int opcao = sc.nextInt();
+
+        switch (opcao) {
+            case 1 -> banhoETosa();
+            case 2 -> consulta();
+            case 3 -> cirurgia();
+            case 4 -> System.out.println("Voltando ao menu inicial...");
+            default -> System.out.println("Opção inválida. Tente novamente.");
+        }
+    }
+
+    private void banhoETosa() {
+        System.out.println("Deseja continuar?");
+        System.out.println("1-sim e 2-Não");
+        int opcao = sc.nextInt();
+        switch (opcao) {
+            case 1 -> {
+                System.out.println("Obrigado!!");
+                System.out.println("Deixe seu pet conosco na nossa recepção junto com a nota da compra.");
+            }
+            case 2 -> System.out.println("Voltando ao menu.");
+        }
+    }
+
+    private void consulta() {
+        sc.nextLine();
+        System.out.println("Marcando consulta");
+        System.out.println("Nome do dono:");
+        String dono = sc.nextLine();
+        
+        System.out.println("Nome do pet");
+        String pet = sc.nextLine();
+        
+        System.out.println("Digite a data da consulta que é de sua preferencia");
+        System.out.println("*Lembrando que se não tiver consulta disponivel na data de sua preferencia");
+        System.out.println("vamos ligar perguntando sobre consultas em datas proximas*");
+        String dataConsulta = sc.nextLine();
+        System.out.println("Consulta marcada para " + pet + " de " + dono + " no dia " + dataConsulta);
+    }
+
+    private void cirurgia() {
+        System.out.println("Cirurgia");
+        System.out.println("Senha gerada!");
+        System.out.println("Aguarde ser chamado e vá ate o guiche");
+    }
+}
+
+class PacoteServicos {
+    private final Scanner sc;
+
+    public PacoteServicos(Scanner sc) {
+        this.sc = sc;
+    }
+
+    public void executar() {
+        System.out.println("Pacote de serviços.");
+        System.out.println("1) Pacote para funeral");
+        System.out.println("2) Pacote Anual de servicos");
+        System.out.println("3) Pacote hospedagem");
+        System.out.println("4) Sair");
+
+        int opcao = sc.nextInt();
+
+        switch (opcao) {
+            case 1 -> pacoteFuneral();
+            case 2 -> pacoteAnual();
+            case 3 -> pacoteAdestramento();
+            case 4 -> System.out.println("Voltando ao menu inicial...");
+            default -> System.out.println("Opção inválida. Tente novamente.");
+        }
+    }
+
+    private void pacoteFuneral() {
+        System.out.println("Pacote funerario");
+        System.out.println("Valor do plano é de 650 reais");
+        System.out.println("Deseja efetuar a compra?");
+        System.out.println("1-Sim e 2-Não");
+        int opcao = sc.nextInt();
+        if (opcao == 1) {
+            processarPagamento();
+        } else {
+            System.out.println("Voltando ao menu principal...");
+        }
+    }
+
+    private void pacoteAnual() {
+        System.out.println("Plano anual de serviços");
+        System.out.println("Valor do plano é de 2500 reais");
+        System.out.println("Deseja efetuar a compra?");
+        System.out.println("1-Sim e 2-Não");
+        int opcao = sc.nextInt();
+        if (opcao == 1) {
+            processarPagamento();
+        } else {
+            System.out.println("Voltando ao menu principal...");
+        }
+    }
+
+    private void pacoteAdestramento() {
+        System.out.println("Pacote adestramento");
+        System.out.println("Valor de 900 por 3 meses");
+        System.out.println("Deseja efetuar a compra?");
+        System.out.println("1-Sim e 2-Não");
+        int opcao = sc.nextInt();
+        if (opcao == 1) {
+            processarPagamento();
+        } else {
+            System.out.println("Voltando ao menu principal...");
+        }
+    }
+
+    private void processarPagamento() {
+        System.out.println("Escolha a forma de pagamento:");
+        System.out.println("1) Credito");
+        System.out.println("2) Debito");
+        System.out.println("3) Pix");
+        int opcao = sc.nextInt();
+        System.out.println("Transferencia aceita! Imprimindo recibo!\n");
+    }
+}
+
+class CadastroCliente {
+    private final Scanner sc;
+
+    public CadastroCliente(Scanner sc) {
+        this.sc = sc;
+    }
+
+    public void executar() {
+        sc.nextLine();  
+        System.out.println("Cadastro");
+        System.out.println("1) Nome do dono");
+        String dono = sc.nextLine();  
+
+        System.out.println("2) Nome do pet");
+        String pet = sc.nextLine();  
+
+        System.out.println("3) Número de telefone");
+        String telefone = sc.nextLine(); 
+
+        System.out.println("Cadastro realizado:");
+        System.out.println("Nome do dono: " + dono);
+        System.out.println("Nome do pet: " + pet);
+        System.out.println("Número de telefone: " + telefone);
+
+        System.out.println("Voltando ao menu inicial...");
+    }
+}
