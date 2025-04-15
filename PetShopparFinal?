@@ -30,7 +30,7 @@ class MenuPrincipal {
             System.out.println("Bem-vindo ao nosso petshop!!!");
             System.out.println("Escolha uma das opcoes de serviço a seguir:");
             System.out.println("1) Servicos individuais");
-            System.out.println("2) Pacote de servicos");
+            System.out.println("2) Pacote de serviços");
             System.out.println("3) Cadastro de cliente");
             System.out.println("4) Sair");
 
