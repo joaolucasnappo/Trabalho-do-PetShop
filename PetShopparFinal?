@@ -177,11 +177,11 @@ class PacoteServicos {
 
     private void processarPagamento() {
         System.out.println("Escolha a forma de pagamento:");
-        System.out.println("1) Credito");
-        System.out.println("2) Debito");
+        System.out.println("1) Crédito");
+        System.out.println("2) Débito");
         System.out.println("3) Pix");
         int opcao = sc.nextInt();
-        System.out.println("Transferencia aceita! Imprimindo recibo!\n");
+        System.out.println("Transferencia aceita! Imprimindo recibo...\n");
     }
 }
 
