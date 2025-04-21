@@ -8,46 +8,46 @@ public class Petshoppar {
         menu.executar();
     }
 }
+        class MenuPrincipal {
+        private final Scanner sc;
+        private final ServicosIndividuais servicosIndividuais; 
+        private final PacoteServicos pacoteServicos;
+        private final CadastroCliente cadastroCliente;
 
-class MenuPrincipal {
-    private final Scanner sc;
-    private final ServicosIndividuais servicosIndividuais;
-    private final PacoteServicos pacoteServicos;
-    private final CadastroCliente cadastroCliente;
-
-    public MenuPrincipal() {
-        sc = new Scanner(System.in);
-        servicosIndividuais = new ServicosIndividuais(sc);
-        pacoteServicos = new PacoteServicos(sc);
-        cadastroCliente = new CadastroCliente(sc);
-    }
-
-    public void executar() {
-        boolean continueMenu = true;
-
-        while (continueMenu) {
-            System.out.println("----Pet-Celso----");
-            System.out.println("Bem-vindo ao nosso petshop!!!");
-            System.out.println("Escolha uma das opcoes de serviço a seguir:");
-            System.out.println("1) Servicos individuais");
-            System.out.println("2) Pacote de serviços");
-            System.out.println("3) Cadastro de cliente");
-            System.out.println("4) Sair");
-
-            int opcao = sc.nextInt();
-
-            switch (opcao) {
-                case 1 -> servicosIndividuais.executar();
-                case 2 -> pacoteServicos.executar();
-                case 3 -> cadastroCliente.executar();
-                case 4 -> {
-                    System.out.println("Saindo... Até logo!");
-                    continueMenu = false;
-                }
-                default -> System.out.println("Opção inválida. Tente novamente.");
-            }
+        public MenuPrincipal() {
+            sc = new Scanner(System.in);
+            servicosIndividuais = new ServicosIndividuais(sc);
+            pacoteServicos = new PacoteServicos(sc);
+            cadastroCliente = new CadastroCliente(sc);
         }
-    }
+
+        public void executar() {
+            boolean continueMenu = true;
+
+            while (continueMenu) {
+                System.out.println("----Pet-Celso----");
+                System.out.println("Bem-vindo ao nosso petshop!!!");
+                System.out.println("Escolha uma das opcoes de serviço a seguir:");
+                System.out.println("1) Servicos individuais");
+                System.out.println("2) Pacote de serviços");
+                System.out.println("3) Cadastro de cliente");
+                System.out.println("4) Sair");
+
+                int opcao = sc.nextInt();
+
+                switch (opcao) {
+                    case 1 -> servicosIndividuais.executar();
+                    case 2 -> pacoteServicos.executar();
+                    case 3 -> cadastroCliente.executar();
+                    case 4 -> {
+                        System.out.println("Saindo... Até logo!");
+                                                continueMenu = false;
+
+                 }
+                default -> System.out.println("Opção inválida. Tente novamente.");
+              }
+           }
+      }
 }
 
 class ServicosIndividuais {
