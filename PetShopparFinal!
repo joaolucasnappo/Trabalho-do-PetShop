@@ -54,7 +54,7 @@ class ServicosIndividuais {
     private final Scanner sc;
 
     public ServicosIndividuais(Scanner sc) {
-        this.sc = sc;
+    this.sc = sc;
     }
 
     public void executar() {
