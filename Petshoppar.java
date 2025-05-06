@@ -1,12 +1,15 @@
 package com.mycompany.petshoppar;
 
 import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.List;
+
 class MenuPrincipal {
     private final Scanner sc;
     private final ServicosIndividuais servicosIndividuais;
     private final PacoteServicos pacoteServicos;
     private final CadastroCliente cadastroCliente;
-
+    
     public MenuPrincipal() {
         sc = new Scanner(System.in);
         servicosIndividuais = new ServicosIndividuais(sc);
@@ -18,13 +21,12 @@ class MenuPrincipal {
         boolean continueMenu = true;
 
         while (continueMenu) {
-            System.out.println("----Pet-Celso----");
-            System.out.println("Bem-vindo ao nosso petshop!!!");
-            System.out.println("Escolha uma das opcoes de serviço a seguir:");
-            System.out.println("1) Servicos individuais");
-            System.out.println("2) Pacote de servicos");
+            System.out.println("\n---- Pet-Celso ----");
+            System.out.println("1) Serviços individuais");
+            System.out.println("2) Pacote de serviços");
             System.out.println("3) Cadastro de cliente");
             System.out.println("4) Sair");
+            // Opção 5 não aparece no menu (acesso secreto)
 
             int opcao = sc.nextInt();
 
@@ -36,70 +38,161 @@ class MenuPrincipal {
                     System.out.println("Saindo... Até logo!");
                     continueMenu = false;
                 }
-                default -> System.out.println("Opção inválida. Tente novamente.");
+                case 5 -> {  // Acesso secreto ao admin
+                    Administrador admin = new Administrador(sc, cadastroCliente, servicosIndividuais);
+                    servicosIndividuais.setAdmin(admin);
+                    admin.executar();
+                }
+                default -> System.out.println("Opção inválida!");
             }
         }
     }
 }
 
-class ServicosIndividuais {
+class Administrador {
     private final Scanner sc;
-
-    public ServicosIndividuais(Scanner sc) {
+    private final CadastroCliente cadastroCliente;
+    private final ServicosIndividuais servicosIndividuais;
+    private List<String> servicosAgendados;
+    
+    public Administrador(Scanner sc, CadastroCliente cadastroCliente, ServicosIndividuais servicosIndividuais) {
         this.sc = sc;
+        this.cadastroCliente = cadastroCliente;
+        this.servicosIndividuais = servicosIndividuais;
+        this.servicosAgendados = new ArrayList<>();
     }
 
     public void executar() {
-        System.out.println("Opcoes de servico individual.");
+        boolean continuar = true;
+        while (continuar) {
+            System.out.println("\n--- Menu Administrador ---");
+            System.out.println("1) Listar clientes");
+            System.out.println("2) Buscar cliente");
+            System.out.println("3) Excluir cliente");
+            System.out.println("4) Listar serviços agendados");
+            System.out.println("5) Cancelar serviço");
+            System.out.println("0) Voltar");
+            
+            int opcao = sc.nextInt();
+            sc.nextLine();
+            
+            switch (opcao) {
+                case 1 -> cadastroCliente.listarClientes();
+                case 2 -> {
+                    System.out.println("Digite o nome do cliente:");
+                    cadastroCliente.buscarCliente(sc.nextLine());
+                }
+                case 3 -> {
+                    System.out.println("Digite o nome do cliente a excluir:");
+                    cadastroCliente.excluirCliente(sc.nextLine());
+                }
+                case 4 -> listarServicosAgendados();
+                case 5 -> {
+                    System.out.println("Digite o nome do pet para cancelar serviço:");
+                    cancelarServicoAgendado(sc.nextLine());
+                }
+                case 0 -> continuar = false;
+                default -> System.out.println("Opção inválida!");
+            }
+        }
+    }
+    
+    private void listarServicosAgendados() {
+        if (servicosAgendados.isEmpty()) {
+            System.out.println("Nenhum serviço agendado.");
+        } else {
+            System.out.println("\n--- Serviços Agendados ---");
+            servicosAgendados.forEach(System.out::println);
+        }
+    }
+    
+    private void cancelarServicoAgendado(String nomePet) {
+        if (servicosAgendados.removeIf(s -> s.contains(nomePet))) {
+            System.out.println("Serviço cancelado com sucesso!");
+        } else {
+            System.out.println("Nenhum serviço encontrado para " + nomePet);
+        }
+    }
+    
+    public void agendarServico(String servico) {
+        servicosAgendados.add(servico);
+    }
+}
+
+class ServicosIndividuais {
+    private final Scanner sc;
+    private Administrador admin;
+    
+    public ServicosIndividuais(Scanner sc) {
+        this.sc = sc;
+    }
+    
+    public void setAdmin(Administrador admin) {
+        this.admin = admin;
+    }
+
+    public void executar() {
+        System.out.println("\n--- Serviços Individuais ---");
         System.out.println("1) Banho e Tosa");
         System.out.println("2) Consulta");
         System.out.println("3) Cirurgia");
-        System.out.println("4) Sair");
+        System.out.println("4) Voltar");
 
-        int opcao = sc.nextInt();
-
-        switch (opcao) {
+        switch (sc.nextInt()) {
             case 1 -> banhoETosa();
             case 2 -> consulta();
             case 3 -> cirurgia();
-            case 4 -> System.out.println("Voltando ao menu inicial...");
-            default -> System.out.println("Opção inválida. Tente novamente.");
+            case 4 -> {}
+            default -> System.out.println("Opção inválida!");
         }
     }
 
     private void banhoETosa() {
-        System.out.println("Deseja continuar?");
-        System.out.println("1-sim e 2-Não");
-        int opcao = sc.nextInt();
-        switch (opcao) {
-            case 1 -> {
-                System.out.println("Obrigado!!");
-                System.out.println("Deixe seu pet conosco na nossa recepção junto com a nota da compra.");
-            }
-            case 2 -> System.out.println("Voltando ao menu.");
+        System.out.println("\nBanho e Tosa - R$60,00");
+        System.out.println("1) Confirmar\n2) Cancelar");
+        if (sc.nextInt() == 1) {
+            System.out.println("Leve seu pet à recepção com a nota!");
         }
     }
 
     private void consulta() {
         sc.nextLine();
-        System.out.println("Marcando consulta");
+        System.out.println("\n--- Agendar Consulta ---");
         System.out.println("Nome do dono:");
         String dono = sc.nextLine();
         
-        System.out.println("Nome do pet");
+        System.out.println("Nome do pet:");
         String pet = sc.nextLine();
         
-        System.out.println("Digite a data da consulta que é de sua preferencia");
-        System.out.println("*Lembrando que se não tiver consulta disponivel na data de sua preferencia");
-        System.out.println("vamos ligar perguntando sobre consultas em datas proximas*");
-        String dataConsulta = sc.nextLine();
-        System.out.println("Consulta marcada para " + pet + " de " + dono + " no dia " + dataConsulta);
+        System.out.println("Data da consulta (DD/MM/AAAA):");
+        String data = sc.nextLine();
+        
+        String servico = String.format("Consulta para %s (Dono: %s) - %s", pet, dono, data);
+        System.out.println("Agendado: " + servico);
+        
+        if (admin != null) {
+            admin.agendarServico(servico);
+        }
     }
 
     private void cirurgia() {
-        System.out.println("Cirurgia");
-        System.out.println("Senha gerada!");
-        System.out.println("Aguarde ser chamado e vá ate o guiche");
+        sc.nextLine();
+        System.out.println("\n--- Agendar Cirurgia ---");
+        System.out.println("Nome do dono:");
+        String dono = sc.nextLine();
+        
+        System.out.println("Nome do pet:");
+        String pet = sc.nextLine();
+        
+        System.out.println("Data da cirurgia (DD/MM/AAAA):");
+        String data = sc.nextLine();
+        
+        String servico = String.format("Cirurgia para %s (Dono: %s) - %s", pet, dono, data);
+        System.out.println("Agendado: " + servico);
+        
+        if (admin != null) {
+            admin.agendarServico(servico);
+        }
     }
 }
 
@@ -111,103 +204,172 @@ class PacoteServicos {
     }
 
     public void executar() {
-        System.out.println("Pacote de serviços.");
-        System.out.println("1) Pacote para funeral");
-        System.out.println("2) Pacote Anual de servicos");
-        System.out.println("3) Pacote hospedagem");
-        System.out.println("4) Sair");
+        System.out.println("\n--- Pacote de Serviços ---");
+        System.out.println("1) Pacote Anual (R$2500)");
+        System.out.println("2) Hospedagem (R$900/3meses)");
+        System.out.println("3) Funeral (R$650)");
+        System.out.println("4) Voltar");
 
-        int opcao = sc.nextInt();
-
-        switch (opcao) {
-            case 1 -> pacoteFuneral();
-            case 2 -> pacoteAnual();
-            case 3 -> pacoteAdestramento();
-            case 4 -> System.out.println("Voltando ao menu inicial...");
-            default -> System.out.println("Opção inválida. Tente novamente.");
-        }
-    }
-
-    private void pacoteFuneral() {
-        System.out.println("Pacote funerario");
-        System.out.println("Valor do plano é de 650 reais");
-        System.out.println("Deseja efetuar a compra?");
-        System.out.println("1-Sim e 2-Não");
-        int opcao = sc.nextInt();
-        if (opcao == 1) {
-            processarPagamento();
-        } else {
-            System.out.println("Voltando ao menu principal...");
+        switch (sc.nextInt()) {
+            case 1 -> pacoteAnual();
+            case 2 -> pacoteHospedagem();
+            case 3 -> pacoteFuneral();
+            case 4 -> {}
+            default -> System.out.println("Opção inválida!");
         }
     }
 
     private void pacoteAnual() {
-        System.out.println("Plano anual de serviços");
-        System.out.println("Valor do plano é de 2500 reais");
-        System.out.println("Deseja efetuar a compra?");
-        System.out.println("1-Sim e 2-Não");
-        int opcao = sc.nextInt();
-        if (opcao == 1) {
-            processarPagamento();
-        } else {
-            System.out.println("Voltando ao menu principal...");
-        }
+        System.out.println("\nPacote Anual - R$2500");
+        System.out.println("1) Comprar\n2) Cancelar");
+        if (sc.nextInt() == 1) processarPagamento();
     }
 
-    private void pacoteAdestramento() {
-        System.out.println("Pacote adestramento");
-        System.out.println("Valor de 900 por 3 meses");
-        System.out.println("Deseja efetuar a compra?");
-        System.out.println("1-Sim e 2-Não");
-        int opcao = sc.nextInt();
-        if (opcao == 1) {
-            processarPagamento();
-        } else {
-            System.out.println("Voltando ao menu principal...");
-        }
+    private void pacoteHospedagem() {
+        System.out.println("\nHospedagem - R$900/3meses");
+        System.out.println("1) Comprar\n2) Cancelar");
+        if (sc.nextInt() == 1) processarPagamento();
+    }
+
+    private void pacoteFuneral() {
+        System.out.println("\nFuneral - R$650");
+        System.out.println("1) Comprar\n2) Cancelar");
+        if (sc.nextInt() == 1) processarPagamento();
     }
 
     private void processarPagamento() {
-        System.out.println("Escolha a forma de pagamento:");
-        System.out.println("1) Credito");
-        System.out.println("2) Debito");
-        System.out.println("3) Pix");
-        int opcao = sc.nextInt();
-        System.out.println("Transferencia aceita! Imprimindo recibo!\n");
+        System.out.println("\nForma de pagamento:");
+        System.out.println("1) Crédito\n2) Débito\n3) Pix");
+        System.out.println("Pagamento processado com sucesso!");
     }
 }
 
 class CadastroCliente {
     private final Scanner sc;
+    private final List<Cliente> clientes;
     
-
     public CadastroCliente(Scanner sc) {
         this.sc = sc;
+        this.clientes = new ArrayList<>();
     }
 
     public void executar() {
         sc.nextLine();  
-        System.out.println("Cadastro");
-        System.out.println("1) Nome do dono");
-        String dono = sc.nextLine();  
+        System.out.println("\n--- Cadastro de Cliente ---");
+        
+        System.out.println("Nome do dono:");
+        String dono = sc.nextLine();
 
-        System.out.println("2) Nome do pet");
-        String pet = sc.nextLine();  
+        System.out.println("Quantidade de pets:");
+        int qtdPets = sc.nextInt();
+        sc.nextLine();
+        
+        List<String> pets = new ArrayList<>();
+        for (int i = 0; i < qtdPets; i++) {
+            System.out.println("Nome do pet #" + (i+1) + ":");
+            pets.add(sc.nextLine());
+        }
 
-        System.out.println("3) Número de telefone");
-        String telefone = sc.nextLine(); 
+        System.out.println("Telefone:");
+        String telefone = sc.nextLine();
 
-        System.out.println("Cadastro realizado:");
-        System.out.println("Nome do dono: " + dono);
-        System.out.println("Nome do pet: " + pet);
-        System.out.println("Número de telefone: " + telefone);
+        clientes.add(new Cliente(dono, pets, telefone));
+        System.out.println("\n✅ Cadastro realizado!");
 
-        System.out.println("Voltando ao menu inicial...");
+        System.out.println("Adicionar mais pets? (1-Sim/2-Não)");
+        if (sc.nextInt() == 1) {
+            sc.nextLine();
+            adicionarMaisPets(dono);
+        }
+    }
+    
+    private void adicionarMaisPets(String nomeDono) {
+        System.out.println("\nQuantos pets deseja adicionar?");
+        int qtd = sc.nextInt();
+        sc.nextLine();
+        
+        for (Cliente c : clientes) {
+            if (c.getDono().equalsIgnoreCase(nomeDono)) {
+                for (int i = 0; i < qtd; i++) {
+                    System.out.println("Nome do pet #" + (i+1) + ":");
+                    c.adicionarPet(sc.nextLine());
+                }
+                System.out.println("🐾 Pets adicionados! Lista atual:");
+                System.out.println(c.getPets());
+                return;
+            }
+        }
+        System.out.println("Cliente não encontrado!");
+    }
+    
+    public void listarClientes() {
+        if (clientes.isEmpty()) {
+            System.out.println("Nenhum cliente cadastrado!");
+        } else {
+            System.out.println("\n--- Clientes Cadastrados ---");
+            clientes.forEach(c -> {
+                System.out.println("Dono: " + c.getDono());
+                System.out.println("Pets: " + c.getPets());
+                System.out.println("Tel: " + c.getTelefone() + "\n");
+            });
+        }
+    }
+    
+    public void buscarCliente(String nome) {
+        boolean encontrado = false;
+        for (Cliente c : clientes) {
+            if (c.getDono().equalsIgnoreCase(nome)) {
+                System.out.println("\n--- Dados do Cliente ---");
+                System.out.println("Dono: " + c.getDono());
+                System.out.println("Pets: " + c.getPets());
+                System.out.println("Tel: " + c.getTelefone());
+                encontrado = true;
+            }
+        }
+        if (!encontrado) System.out.println("Cliente não encontrado!");
+    }
+    
+    public void excluirCliente(String nome) {
+        if (clientes.removeIf(c -> c.getDono().equalsIgnoreCase(nome))) {
+            System.out.println("Cliente removido com sucesso!");
+        } else {
+            System.out.println("Cliente não encontrado!");
+        }
     }
 }
+
+class Cliente {
+    private final String dono;
+    private final List<String> pets;
+    private final String telefone;
+    
+    public Cliente(String dono, List<String> pets, String telefone) {
+        this.dono = dono;
+        this.pets = pets;
+        this.telefone = telefone;
+    }
+    
+    public String getDono() { return dono; }
+    public List<String> getPets() { return pets; }
+    public String getTelefone() { return telefone; }
+    
+    public void adicionarPet(String nome) {
+        pets.add(nome);
+    }
+}
+
 public class Petshoppar {
     public static void main(String[] args) {
-        MenuPrincipal menu = new MenuPrincipal();
-        menu.executar();
+        Scanner sc = new Scanner(System.in);
+        
+        // Configuração inicial
+        CadastroCliente cadastro = new CadastroCliente(sc);
+        ServicosIndividuais servicos = new ServicosIndividuais(sc);
+        
+        // Link para o admin (não aparece publicamente)
+        servicos.setAdmin(new Administrador(sc, cadastro, servicos));
+        
+        // Inicia o sistema
+        new MenuPrincipal().executar();
     }
 }
