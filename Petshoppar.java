@@ -1,60 +1,52 @@
 package com.mycompany.petshoppar;
 
 import java.util.Scanner;
+class MenuPrincipal {
+    private final Scanner sc;
+    private final ServicosIndividuais servicosIndividuais;
+    private final PacoteServicos pacoteServicos;
+    private final CadastroCliente cadastroCliente;
 
-public class Petshoppar {
-    public static void main(String[] args) {
-        MenuPrincipal menu = new MenuPrincipal();
-        menu.executar();
+    public MenuPrincipal() {
+        sc = new Scanner(System.in);
+        servicosIndividuais = new ServicosIndividuais(sc);
+        pacoteServicos = new PacoteServicos(sc);
+        cadastroCliente = new CadastroCliente(sc);
     }
-}
-        class MenuPrincipal {
-        private final Scanner sc;
-        private final ServicosIndividuais servicosIndividuais; 
-        private final PacoteServicos pacoteServicos;
-        private final CadastroCliente cadastroCliente;
 
-        public MenuPrincipal() {
-            sc = new Scanner(System.in);
-            servicosIndividuais = new ServicosIndividuais(sc);
-            pacoteServicos = new PacoteServicos(sc);
-            cadastroCliente = new CadastroCliente(sc);
-        }
+    public void executar() {
+        boolean continueMenu = true;
 
-        public void executar() {
-            boolean continueMenu = true;
+        while (continueMenu) {
+            System.out.println("----Pet-Celso----");
+            System.out.println("Bem-vindo ao nosso petshop!!!");
+            System.out.println("Escolha uma das opcoes de serviço a seguir:");
+            System.out.println("1) Servicos individuais");
+            System.out.println("2) Pacote de servicos");
+            System.out.println("3) Cadastro de cliente");
+            System.out.println("4) Sair");
 
-            while (continueMenu) {
-                System.out.println("----Pet-Celso----");
-                System.out.println("Bem-vindo ao nosso petshop!!!");
-                System.out.println("Escolha uma das opcoes de serviço a seguir:");
-                System.out.println("1) Servicos individuais");
-                System.out.println("2) Pacote de serviços");
-                System.out.println("3) Cadastro de cliente");
-                System.out.println("4) Sair");
+            int opcao = sc.nextInt();
 
-                int opcao = sc.nextInt();
-
-                switch (opcao) {
-                    case 1 -> servicosIndividuais.executar();
-                    case 2 -> pacoteServicos.executar();
-                    case 3 -> cadastroCliente.executar();
-                    case 4 -> {
-                        System.out.println("Saindo... Até logo!");
-                                                continueMenu = false;
-
-                 }
+            switch (opcao) {
+                case 1 -> servicosIndividuais.executar();
+                case 2 -> pacoteServicos.executar();
+                case 3 -> cadastroCliente.executar();
+                case 4 -> {
+                    System.out.println("Saindo... Até logo!");
+                    continueMenu = false;
+                }
                 default -> System.out.println("Opção inválida. Tente novamente.");
-              }
-           }
-      }
+            }
+        }
+    }
 }
 
 class ServicosIndividuais {
     private final Scanner sc;
 
     public ServicosIndividuais(Scanner sc) {
-    this.sc = sc;
+        this.sc = sc;
     }
 
     public void executar() {
@@ -177,16 +169,17 @@ class PacoteServicos {
 
     private void processarPagamento() {
         System.out.println("Escolha a forma de pagamento:");
-        System.out.println("1) Crédito");
-        System.out.println("2) Débito");
+        System.out.println("1) Credito");
+        System.out.println("2) Debito");
         System.out.println("3) Pix");
         int opcao = sc.nextInt();
-        System.out.println("Transferencia aceita! Imprimindo recibo...\n");
+        System.out.println("Transferencia aceita! Imprimindo recibo!\n");
     }
 }
 
 class CadastroCliente {
     private final Scanner sc;
+    
 
     public CadastroCliente(Scanner sc) {
         this.sc = sc;
@@ -210,5 +203,11 @@ class CadastroCliente {
         System.out.println("Número de telefone: " + telefone);
 
         System.out.println("Voltando ao menu inicial...");
+    }
+}
+public class Petshoppar {
+    public static void main(String[] args) {
+        MenuPrincipal menu = new MenuPrincipal();
+        menu.executar();
     }
 }
