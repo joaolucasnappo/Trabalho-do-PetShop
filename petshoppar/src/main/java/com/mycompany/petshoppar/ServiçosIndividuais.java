@@ -71,8 +71,7 @@ class ServicosIndividuais {
         System.out.println("Data da cirurgia (DD/MM/AAAA):");
         String data = sc.nextLine();
         
-        String servico = String.format("Cirurgia para %s (Dono: %s) - %s", pet, dono, data);
-        System.out.println("Agendado: " + servico);
+        String servico = String.format("Cirurgia para %s (Dono: %s) - %s", pet, dono, data);        System.out.println("Agendado: " + servico);
         
        
     }

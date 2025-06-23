@@ -71,9 +71,7 @@ class Administrador {
         } else {
             System.out.println("Nenhum serviço encontrado para " + nomePet);
         }
-    }
-    
-    public void agendarServico(String servico) {
+    }    public void agendarServico(String servico) {
         servicosAgendados.add(servico);
     }
 }

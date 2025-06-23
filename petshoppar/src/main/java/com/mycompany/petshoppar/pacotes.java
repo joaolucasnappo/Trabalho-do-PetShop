@@ -45,9 +45,7 @@ class PacoteServicos {
         System.out.println("\nFuneral - R$650");
         System.out.println("1) Comprar\n2) Cancelar");
         if (sc.nextInt() == 1) processarPagamento();
-    }
-
-    private void processarPagamento() {
+    }    private void processarPagamento() {
         System.out.println("\nForma de pagamento:");
         System.out.println("1) Crédito\n2) Débito\n3) Pix");
         System.out.println("Pagamento processado com sucesso!");

@@ -116,8 +116,7 @@ class Cliente {
     }
     
     public String getDono() { return dono; }
-    public List<String> getPets() { return pets; }
-    public String getTelefone() { return telefone; }
+    public List<String> getPets() { return pets; }    public String getTelefone() { return telefone; }
     
     public void adicionarPet(String nome) {
         pets.add(nome);
