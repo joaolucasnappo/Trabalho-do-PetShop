@@ -2,7 +2,7 @@ package com.mycompany.petshoppar;
 
 import java.util.Scanner;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.List
 
 class MenuPrincipal {
     private final Scanner sc;
