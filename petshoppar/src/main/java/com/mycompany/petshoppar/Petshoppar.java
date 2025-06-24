@@ -38,7 +38,7 @@ class MenuPrincipal {
                     System.out.println("Saindo... Até logo!");
                     continueMenu = false;
                 }
-                case 5 -> {  // Acesso secreto ao admin
+                case 5 -> { 
                     Administrador admin = new Administrador(sc, cadastroCliente, servicosIndividuais);
                     
                     admin.executar();
