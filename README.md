@@ -63,19 +63,5 @@ Funcionalidades:
 - Digite apenas números para quantidade de pets
 - Botão "Voltar" retorna ao menu anterior
 
-## Estrutura do Projeto
 
-```
-Trabalho-do-PetShop/
-├── README.md
-└── petshoppar/
-    └── src/
-        └── main/
-            └── java/
-                └── com/
-                    └── mycompany/
-                        └── petshoppar/
-                            └── PetshopGUIUnificado.java
-```
 
-Sistema desenvolvido em Java Swing para gerenciamento básico de petshop.
